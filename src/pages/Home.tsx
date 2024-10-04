@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import Product from "../types/product";
 
+
 const HomePage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -49,7 +50,9 @@ const HomePage: React.FC = () => {
             Featured Products
           </h3>
           {loading ? (
-            <p className="text-center">Loading products...</p>
+          <div className="flex items-center justify-center py-16">
+            <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-blue-600"></div>
+          </div>
           ) : error ? (
             <p className="text-center text-red-500">{error}</p>
           ) : (
@@ -60,10 +63,10 @@ const HomePage: React.FC = () => {
             </div>
           )}
         </div>
-        <div className="px-10 py-3">
+        <div className="px-10 py-3 w-full flex justify-end">
           <Link
             to={"/products"}
-            className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+            className="font-medium text-blue-600 dark:text-blue-500 hover:underline text-right"
           >
             View More
           </Link>

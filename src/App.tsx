@@ -1,7 +1,7 @@
 import NavBar from "./components/NavBar"
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import HomePage from "./pages/Home";
-import Product from "./pages/Product";
+import Product from "./pages/Products.tsx/Product";
 import AboutPage from "./pages/About";
 import ContactPage from "./pages/Contact";
 import Footer from "./components/Footer";

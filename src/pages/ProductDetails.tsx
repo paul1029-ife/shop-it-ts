@@ -9,19 +9,18 @@ const ProductDetailsPage: React.FC = () => {
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const { addToCart } = useCart()
-    const { search } = useLocation();  // Get query string, including "?"
-     const id = new URLSearchParams(search).get('id'); 
-    console.log(id)
+    const { addToCart } = useCart();
+    const { search } = useLocation();  
+    const id = new URLSearchParams(search).get('id');
+
     useEffect(() => {
       const fetchProductDetails = async () => {
-        console.log(id)
         if (!id) {
           setError('Product ID is missing');
           setLoading(false);
           return;
         }
-  
+
         try {
           const response = await axios.get(`https://dummyjson.com/products/${id}`);
           setProduct(response.data);
@@ -31,46 +30,80 @@ const ProductDetailsPage: React.FC = () => {
           setLoading(false);
         }
       };
-  
+
       fetchProductDetails();
     }, [id]);
-  
-    if (loading) return <p className="text-center py-8">Loading product details...</p>;
-    if (error) return <p className="text-center text-red-500 py-8">{error}</p>;
-    if (!product) return <p className="text-center py-8">Product not found</p>;
-  
+
+    // Loading State
+    if (loading) {
+      return <div className="flex items-center justify-center py-16">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-blue-600"></div>
+      </div>;
+    }
+
+    // Error State
+    if (error) {
+      return <p className="text-center text-red-500 py-8">{error}</p>;
+    }
+
+    // No Product Found State
+    if (!product) {
+      return <p className="text-center py-8">Product not found</p>;
+    }
+
     return (
-        <div className="container mx-auto py-8">
-        <h2 className="text-3xl font-bold mb-8 text-blue-800">{product.title}</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="container mx-auto py-12 px-4 md:px-12">
+        {/* Product Title */}
+        <h2 className="text-4xl font-extrabold mb-6 text-gray-800">{product.title}</h2>
+
+        {/* Grid for Image and Details */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          {/* Product Image */}
           <div>
-            <img src={product.thumbnail} alt={product.title} className="w-full h-auto rounded-lg shadow-md" />
-            <div className="mt-4 grid grid-cols-4 gap-2">
+            <img src={product.thumbnail} alt={product.title} className="w-full h-auto rounded-lg shadow-lg object-cover hover:scale-105 transition-transform duration-300" />
+            <div className="mt-6 grid grid-cols-4 gap-4">
               {product.images.slice(0, 4).map((image, index) => (
-                <img key={index} src={image} alt={`${product.title} - ${index + 1}`} className="w-full h-24 object-cover rounded" />
+                <img key={index} src={image} alt={`${product.title} - ${index + 1}`} className="w-full h-24 object-cover rounded-lg hover:scale-105 transition-transform duration-300" />
               ))}
             </div>
           </div>
+
+          {/* Product Details */}
           <div>
-            <p className="text-2xl font-bold text-blue-600 mb-4">${product.price.toFixed(2)}</p>
-            <p className="mb-4">{product.description}</p>
-            <ul className="space-y-2">
+            <p className="text-2xl font-bold text-green-600 mb-4">${product.price.toFixed(2)}</p>
+            <p className="text-lg text-gray-600 mb-6">{product.description}</p>
+
+            <ul className="space-y-3 text-gray-700">
               <li><strong>Brand:</strong> {product.brand}</li>
               <li><strong>Category:</strong> {product.category}</li>
               <li><strong>Rating:</strong> {product.rating}/5</li>
               <li><strong>Stock:</strong> {product.stock}</li>
               <li><strong>Discount:</strong> {product.discountPercentage}%</li>
             </ul>
-            <button 
-              onClick={() => addToCart(product)}
-              className="mt-8 bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600 transition duration-300"
-            >
-              Add to Cart
-            </button>
+
+            {/* Buttons for Add to Cart and Buy Now */}
+            <div className="flex space-x-4 mt-8">
+              <button 
+                onClick={() => addToCart(product)} 
+                className="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition-colors duration-300"
+              >
+                Add to Cart
+              </button>
+              <button 
+                className="bg-slate-100 text-black px-6 py-3 rounded-full hover:bg-slate-200 transition-colors duration-300"
+                onClick={() => {
+                  addToCart(product); 
+                  alert('Redirecting to checkout page'); 
+                  // You could programmatically route to a checkout page here
+                }}
+              >
+                Buy Now
+              </button>
+            </div>
           </div>
         </div>
       </div>
     );
-  };
-  
-  export  default ProductDetailsPage;
+};
+
+export default ProductDetailsPage;
