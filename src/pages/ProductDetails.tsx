@@ -4,8 +4,10 @@ import { useState, useEffect } from 'react';
 import Product from '../types/product';
 import { useLocation } from 'react-router-dom';
 import { useCart } from '../context/Cart';
+import { Star, StarHalf, StarOff } from 'lucide-react';
 
 const ProductDetailsPage: React.FC = () => {
+  
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -76,7 +78,7 @@ const ProductDetailsPage: React.FC = () => {
             <ul className="space-y-3 text-gray-700">
               <li><strong>Brand:</strong> {product.brand}</li>
               <li><strong>Category:</strong> {product.category}</li>
-              <li><strong>Rating:</strong> {product.rating}/5</li>
+              <li className='flex gap-2'><strong>Rating:</strong> <StarRating rating={product.rating}/></li>
               <li><strong>Stock:</strong> {product.stock}</li>
               <li><strong>Discount:</strong> {product.discountPercentage}%</li>
             </ul>
@@ -107,3 +109,31 @@ const ProductDetailsPage: React.FC = () => {
 };
 
 export default ProductDetailsPage;
+
+interface StarRatingProps {
+  rating: number;
+}
+
+const StarRating: React.FC<StarRatingProps> = ({ rating }) => {
+  const renderStars = (rating: number) => {
+    const totalStars = 5;
+    const stars = [];
+
+    for (let i = 1; i <= totalStars; i++) {
+      if (i <= Math.floor(rating)) {
+        // Full star
+        stars.push(<Star key={i} className="text-yellow-500 inline-block" />);
+      } else if (i === Math.ceil(rating) && rating % 1 !== 0) {
+        // Half star for decimal values
+        stars.push(<StarHalf key={i} className="text-yellow-500 inline-block" />);
+      } else {
+        // Empty star
+        stars.push(<StarOff key={i} className="text-gray-400 inline-block" />);
+      }
+    }
+
+    return stars;
+  };
+
+  return <div>{renderStars(rating)}</div>;
+};

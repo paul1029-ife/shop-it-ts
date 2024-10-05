@@ -5,7 +5,7 @@ const CartPage: React.FC = () => {
     const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   
     return (
-      <div className="container mx-auto py-8">
+      <div className="container mx-auto py-8 pt-20">
         <h2 className="text-3xl font-bold mb-8 text-blue-800">Your Shopping Cart</h2>
         {cart.length === 0 ? (
           <p className="text-center">Your cart is empty.</p>
@@ -44,6 +44,7 @@ const CartPage: React.FC = () => {
                 Clear Cart
               </button>
             </div>
+            {cart.length !== 0 && <button type="button" className="text-white w-full mt-4 bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Buy Now</button>}
           </>
         )}
       </div>

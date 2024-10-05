@@ -25,7 +25,7 @@ export default function NavBar() {
 
   return (
     <>
-      <header className="bg-blue-600 text-white py-4">
+      <header className="bg-blue-600 text-white py-4 fixed w-full z-20 top-0 start-0 ">
         <div className="container mx-auto flex justify-between items-center">
           <Link to="/" className="text-2xl font-bold hover:text-blue-300">
             Shop-it
