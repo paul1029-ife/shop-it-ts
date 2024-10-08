@@ -9,6 +9,7 @@ import ProductDetailsPage from "./pages/ProductDetails";
 import CartPage from "./pages/Cart";
 import CartProvider from "./context/Cart";
 import SearchResultsPage from "./pages/SearchResultPage";
+import CategoryPage from "./pages/CategoryPage";
 
 const App: React.FC = () => {
   return (
@@ -22,6 +23,7 @@ const App: React.FC = () => {
               <Route path="/" element={<HomePage />} />
               <Route path="/products" element={<Product />} />
               <Route path="/about" element={<AboutPage />} />
+              <Route path="/products/:category" element={<CategoryPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/product" element={<ProductDetailsPage />} />
               <Route path="/search" element={<SearchResultsPage />} />
