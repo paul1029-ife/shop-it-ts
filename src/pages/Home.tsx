@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import Product from "../types/product";
 
-
 const HomePage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -19,6 +18,7 @@ const HomePage: React.FC = () => {
       } catch (err) {
         setError("Failed to fetch products. Please try again later.");
         setLoading(false);
+        console.error(err);
       }
     };
 
@@ -50,9 +50,9 @@ const HomePage: React.FC = () => {
             Featured Products
           </h3>
           {loading ? (
-          <div className="flex items-center justify-center py-16">
-            <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-blue-600"></div>
-          </div>
+            <div className="flex items-center justify-center py-16">
+              <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-blue-600"></div>
+            </div>
           ) : error ? (
             <p className="text-center text-red-500">{error}</p>
           ) : (
